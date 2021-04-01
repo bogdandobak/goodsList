@@ -2,7 +2,7 @@
 
 You can check this app here:
 
-* [DEMO](https://bogdandobak.github.io/goodsList/)
+* [DEMO](https://bogdandobak.github.io/productsList/)
 
 ## Description
 
