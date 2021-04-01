@@ -1,4 +1,3 @@
-
 # React Product App
 
 You can check this app here:
