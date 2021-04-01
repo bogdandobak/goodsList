@@ -1,10 +1,11 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { List, Image } from 'semantic-ui-react';
 import { Route } from 'react-router-hoc';
 import { Link } from 'react-router-dom';
 import { ModalWindow } from '../ModalWindow';
+import { ProductDetails } from '../ProductDetails';
 
 const ProductListRoute = Route({
   sortedBy: Route.params.enum('none', 'name', 'count'),
@@ -14,9 +15,16 @@ export const ProductsList = ProductListRoute(({
   match: { params: { sortedBy } },
   products,
   onDelete,
-}) => (
-  <div>
-    <List animated verticalAlign="middle">
+  onHandlePage,
+}) => {
+  const handlePage = useCallback(
+    (item) => {
+      onHandlePage(item);
+    }, [],
+  );
+
+  return (
+    <List verticalAlign="middle" size="big">
       {products && products.sort((current, next) => {
         switch (sortedBy) {
           case 'name':
@@ -37,15 +45,17 @@ export const ProductsList = ProductListRoute(({
               <List.Description>
                 {`Count: ${product.count}, weight: ${product.weight}`}
               </List.Description>
-              <Link to="/productInfo">
+              <Link
+                to={ProductDetails.link({ productId: product.id })}
+                onClick={() => handlePage(product.id)}
+              >
                 Product Description
               </Link>
               <ModalWindow id={product.id} onDelete={onDelete} />
             </List.Content>
-
           </List.Item>
         </>
       ))}
     </List>
-  </div>
-));
+  );
+});

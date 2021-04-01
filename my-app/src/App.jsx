@@ -5,9 +5,11 @@ import { ProductsList } from './components/ProductsList';
 import { Sorter } from './components/Sorter';
 import { deleteProduct, getProducts, createProduct } from './api/api';
 import { ProductForm } from './components/ProductForm';
+import { ProductDetails } from './components/ProductDetails';
 
 export const App = () => {
   const [products, setProducts] = useState([]);
+  const [productId, setProductId] = useState(0);
 
   useEffect(() => {
     getProducts()
@@ -22,9 +24,16 @@ export const App = () => {
   );
 
   const onCreate = useCallback(
-    async (product) => {
-      await createProduct({ ...product });
+    (newProduct) => {
+      createProduct(newProduct);
+      setProducts((prevProducts) => [...prevProducts, newProduct]);
     }, [],
+  );
+
+  const onHandlePage = useCallback(
+    (id) => {
+      setProductId(id);
+    }, [productId],
   );
 
   return (
@@ -33,7 +42,8 @@ export const App = () => {
       <Sorter />
       <ProductForm onCreate={onCreate} />
       <Switch>
-        <ProductsList products={products} onDelete={onDelete} />
+        <ProductsList products={products} onDelete={onDelete} onHandlePage={onHandlePage} />
+        <ProductDetails productId={productId} products={products} />
         <Redirect to={ProductsList.link({ sortedBy: 'none' })} />
       </Switch>
     </div>
