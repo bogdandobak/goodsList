@@ -49,4 +49,27 @@ export const getComments = async (url, id) => {
   return result;
 };
 
+export const createComment = async (newComment, id) => {
+  const response = await fetch(`${BASE_URL}/products/${id}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json; charset=utf-8',
+    },
+    body: JSON.stringify(newComment),
+  });
+
+  const result = await response.json();
+
+  return result;
+};
+
+export const deleteComment = async (productId, commentId) => {
+  const response = await fetch(
+    `${BASE_URL}/products/${productId}/comments/${commentId}`,
+    { method: 'DELETE' },
+  );
+
+  return response;
+};
+
 export const getProducts = () => request('products');

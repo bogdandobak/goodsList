@@ -44,7 +44,7 @@ export const App = () => {
       <Switch>
         <ProductsList products={products} onDelete={onDelete} onHandlePage={onHandlePage} />
         <ProductDetails productId={productId} products={products} />
-        <Redirect to={ProductsList.link({ sortedBy: 'none' })} />
+        <Redirect to={ProductsList.link({ sortedBy: '' })} />
       </Switch>
     </div>
   );

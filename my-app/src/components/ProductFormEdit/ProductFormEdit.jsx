@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 import {
   Button, Header, Icon, Modal, Form,
 } from 'semantic-ui-react';
-import uniqid from 'uniqid';
 
-export const ProductForm = ({ onCreate }) => {
+export const ProductFormEdit = ({ onCreate, product }) => {
   const [open, setOpen] = useState(false);
   const [inputQuery, setInputQuery] = useState({
-    imageUrl: '',
-    name: '',
-    count: '',
-    width: '',
-    height: '',
-    weight: '',
+    imageUrl: product.imageUrl,
+    name: product.name,
+    count: product.count,
+    width: product.size.width,
+    height: product.size.height,
+    weight: product.weight,
   });
 
   const handleChange = useCallback(
@@ -40,7 +39,7 @@ export const ProductForm = ({ onCreate }) => {
 
     if (imageUrl && name && count && weight && height && width) {
       const newProduct = {
-        id: uniqid(),
+        id: product.id,
         imageUrl,
         name,
         count,
@@ -54,12 +53,12 @@ export const ProductForm = ({ onCreate }) => {
       onCreate(newProduct);
       setOpen(false);
       setInputQuery({
-        imageUrl: '',
-        name: '',
-        count: '',
-        width: '',
-        height: '',
-        weight: '',
+        imageUrl: product.imageUrl,
+        name: product.name,
+        count: product.count,
+        width: product.size.width,
+        height: product.size.height,
+        weight: product.weight,
       });
     }
   };
@@ -68,12 +67,12 @@ export const ProductForm = ({ onCreate }) => {
     () => {
       setOpen(false);
       setInputQuery({
-        imageUrl: '',
-        name: '',
-        count: '',
-        width: '',
-        height: '',
-        weight: '',
+        imageUrl: product.imageUrl,
+        name: product.name,
+        count: product.count,
+        width: product.size.width,
+        height: product.size.height,
+        weight: product.weight,
       });
     },
     [],
@@ -85,11 +84,11 @@ export const ProductForm = ({ onCreate }) => {
       onOpen={() => setOpen(true)}
       open={open}
       size="small"
-      trigger={<Button>New Product</Button>}
+      trigger={<Button>Edit Product</Button>}
     >
       <Header icon>
         <Icon name="server" />
-        Create Product
+        Edit Product
       </Header>
       <Modal.Content>
         <Form onSubmit={handleSubmit}>
@@ -164,6 +163,17 @@ export const ProductForm = ({ onCreate }) => {
   );
 };
 
-ProductForm.propTypes = {
+ProductFormEdit.propTypes = {
   onCreate: PropTypes.func.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    imageUrl: PropTypes.string.isRequired,
+    count: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    size: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }).isRequired,
+    weight: PropTypes.string.isRequired,
+  }).isRequired,
 };

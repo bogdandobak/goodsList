@@ -8,7 +8,7 @@ import { ModalWindow } from '../ModalWindow';
 import { ProductDetails } from '../ProductDetails';
 
 const ProductListRoute = Route({
-  sortedBy: Route.params.enum('none', 'name', 'count'),
+  sortedBy: Route.params.enum('', 'name', 'count'),
 }, ({ sortedBy }) => `/${sortedBy}`);
 
 export const ProductsList = ProductListRoute(({
@@ -24,7 +24,7 @@ export const ProductsList = ProductListRoute(({
   );
 
   return (
-    <List verticalAlign="middle" size="big">
+    <div className="container">
       {products && products.sort((current, next) => {
         switch (sortedBy) {
           case 'name':
@@ -37,7 +37,7 @@ export const ProductsList = ProductListRoute(({
             break;
         }
       }).map((product) => (
-        <>
+        <List verticalAlign="middle" size="big" key={product.id}>
           <List.Item key={product.id}>
             <Image avatar src={product.imageUrl} />
             <List.Content>
@@ -54,8 +54,8 @@ export const ProductsList = ProductListRoute(({
               <ModalWindow id={product.id} onDelete={onDelete} />
             </List.Content>
           </List.Item>
-        </>
+        </List>
       ))}
-    </List>
+    </div>
   );
 });
