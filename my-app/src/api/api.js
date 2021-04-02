@@ -3,73 +3,126 @@ const BASE_URL = 'https://60645e8ff0919700177857e1.mockapi.io/';
 
 // eslint-disable-next-line consistent-return
 const request = async (url) => {
-  const response = await fetch(`${BASE_URL}${url}`);
+  try {
+    const response = await fetch(`${BASE_URL}${url}`);
 
-  const result = await response.json();
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+    const result = await response.json();
 
-  return result;
+    return result;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const deleteProduct = async (id) => {
-  const response = await fetch(
-    `${BASE_URL}/products/${id}`,
-    { method: 'DELETE' },
-  );
+  try {
+    const response = await fetch(
+      `${BASE_URL}/products/${id}`,
+      { method: 'DELETE' },
+    );
 
-  return response;
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+
+    return response;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const createProduct = async (newProduct) => {
-  const response = await fetch(`${BASE_URL}/products`, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify(newProduct),
-  });
+  try {
+    const response = await fetch(`${BASE_URL}/products`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify(newProduct),
+    });
 
-  const result = await response.json();
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+    const result = await response.json();
 
-  return result;
+    return result;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const getProductDetails = async (url, id) => {
-  const response = await fetch(`${BASE_URL}${url}/${id}`);
+  try {
+    const response = await fetch(`${BASE_URL}${url}/${id}`);
 
-  const result = await response.json();
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+    const result = await response.json();
 
-  return result;
+    return result;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const getComments = async (url, id) => {
-  const response = await fetch(`${BASE_URL}products/${id}/${url}`);
+  try {
+    const response = await fetch(`${BASE_URL}products/${id}/${url}`);
 
-  const result = await response.json();
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
 
-  return result;
+    const result = await response.json();
+
+    return result;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const createComment = async (newComment, id) => {
-  const response = await fetch(`${BASE_URL}/products/${id}/comments`, {
-    method: 'POST',
-    headers: {
-      'Content-type': 'application/json; charset=utf-8',
-    },
-    body: JSON.stringify(newComment),
-  });
+  try {
+    const response = await fetch(`${BASE_URL}/products/${id}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json; charset=utf-8',
+      },
+      body: JSON.stringify(newComment),
+    });
 
-  const result = await response.json();
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
 
-  return result;
+    const result = await response.json();
+
+    return result;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const deleteComment = async (productId, commentId) => {
-  const response = await fetch(
-    `${BASE_URL}/products/${productId}/comments/${commentId}`,
-    { method: 'DELETE' },
-  );
+  try {
+    const response = await fetch(
+      `${BASE_URL}/products/${productId}/comments/${commentId}`,
+      { method: 'DELETE' },
+    );
 
-  return response;
+    if (!response.ok) {
+      console.log(response.statusText);
+    }
+
+    return response;
+  } catch {
+    throw new Error();
+  }
 };
 
 export const getProducts = () => request('products');
