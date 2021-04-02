@@ -8,6 +8,7 @@ import {
 } from '../../api/api';
 import { CommentForm } from '../CommentForm';
 import { ProductFormEdit } from '../ProductFormEdit';
+import { useLocalStorage } from '../../helpers/useLocalStorage';
 
 const ProductDetailsRoute = Route({
   productId: Route.params.enum(),
@@ -16,6 +17,7 @@ const ProductDetailsRoute = Route({
 export const ProductDetails = ProductDetailsRoute(({ productId }) => {
   const [product, setProduct] = useState({});
   const [comments, setComments] = useState([]);
+  const [storageProduct, setStorageProduct] = useLocalStorage('product', product);
 
   const [show, setShow] = useState(false);
 
@@ -65,13 +67,20 @@ export const ProductDetails = ProductDetailsRoute(({ productId }) => {
     }, [],
   );
 
+  useEffect(() => {
+    setStorageProduct(product);
+  }, [product]);
+
   return show ? (
     <Card>
-      <Image src={product.imageUrl} wrapped ui={false} />
+      <Image src={storageProduct.imageUrl} wrapped ui={false} />
       <Card.Content>
-        <Card.Header>{product.name}</Card.Header>
+        <Card.Header>{storageProduct.name}</Card.Header>
         <Card.Description>
-          {`Count: ${product.count}, Width: ${product.size.width}, Height: ${product.size.height}, Weight: ${product.weight} `}
+          {`Count: ${storageProduct.count}, `
+            + `Width: ${storageProduct.size.width},`
+            + `Height: ${storageProduct.size.height}, `
+            + `Weight: ${storageProduct.weight} `}
         </Card.Description>
         <p>
           Comments:
@@ -88,7 +97,7 @@ export const ProductDetails = ProductDetailsRoute(({ productId }) => {
         ))}
       </Card.Content>
       <CommentForm onCreateComment={onCreateComment} productId={productId} />
-      <ProductFormEdit onCreate={onCreate} product={product} />
+      <ProductFormEdit onCreate={onCreate} product={storageProduct} />
     </Card>
   ) : (
     <Loader active />
